@@ -55,7 +55,7 @@ public class SampleGameClient implements GameClient {
                 firstCheck = false;
                 return new Point(1, 1);
             } else {
-                return strategyHandler(board);
+                return strategyHandlerWentFirst(board);
             }
         } else {
             if (firstCheck) {
@@ -63,88 +63,13 @@ public class SampleGameClient implements GameClient {
                 return getMiddleOrStartStrategy(board);
             }
 
-            return strategyHandler(board);
+            return strategyHandlerWentFirst(board);
         }
     }
 
-
-    public Point doBottomLeftStrategy(PlayerSymbol[][] board) {
-        System.out.println("I am doing BottomLeftStrategy");
-        if (checkIfEmpty(board, 2, 0)) {
-            return new Point(2, 0);
-        } else if (checkIfMine(board, 1, 1) && checkIfEmpty(board, 0, 2)) {
-            return new Point(0, 2);
-        } else if (checkIfEmpty(board, 2, 1)) {
-            return new Point(2, 1);
-        } else if (checkIfEmpty(board, 2, 2)) {
-            return new Point(2, 2);
-        }
-        System.out.println("None of the suggested points worked, panicking now.");
-
-        return checkBestPositionWentSecond(board);
-    }
-
-    public Point doBottomRightStrategy(PlayerSymbol[][] board) {
-        System.out.println("I am doing BottomRightStrategy");
-        if (checkIfEmpty(board, 2, 2)) {
-            return new Point(2, 2);
-        } else if (checkIfMine(board, 1, 1) && checkIfEmpty(board, 0, 0)) {
-            return new Point(0, 0);
-        } else if (checkIfEmpty(board, 0, 2)) {
-            return new Point(0, 2);
-        } else if (checkIfEmpty(board, 1, 2)) {
-            return new Point(1, 2);
-        }
-        System.out.println("None of the suggested points worked, panicking now.");
-
-        return checkBestPositionWentSecond(board);
-    }
-
-
-    public Point doTopRightStrategy(PlayerSymbol[][] board) {
-        System.out.println("I am doing TopRightStrategy");
-        //these strategies always first check a different pair of corners and a point between them.
-        //if a strategy that works is found, it will start putting points first corner - then it checks if middle is ours
-
-
-        if (checkIfEmpty(board, 0, 0)) {
-            return new Point(0, 0);
-        } else if (checkIfMine(board, 1, 1) && checkIfEmpty(board, 2, 2)) {
-            return new Point(2, 2);
-        } else if (checkIfEmpty(board, 0, 2)) {
-            return new Point(0, 2);
-        } else if (checkIfEmpty(board, 0, 1)) {
-            return new Point(0, 1);
-        }
-        System.out.println("None of the suggested points worked, panicking now.");
-
-        return checkBestPositionWentSecond(board);
-    }
-
-
-    public Point doTopLeftStrategy(PlayerSymbol[][] board) {
-        System.out.println("I am doing TopLeftStrategy");
-        if (checkIfEmpty(board, 0, 0)) {
-            return new Point(0, 0);
-        } else if (checkIfMine(board, 1, 1) && checkIfEmpty(board, 2, 2)) {
-            return new Point(2, 2);
-        } else if (checkIfEmpty(board, 2, 0)) {
-            return new Point(2, 0);
-        } else if (checkIfEmpty(board, 1, 0)) {
-            return new Point(1, 0);
-        }
-        System.out.println("None of the suggested points worked, panicking now.");
-
-        return checkBestPositionWentSecond(board);
-    }
-
-    private String iDidThisStrategyLast = "";
     private final String diagonalLeftStrategy = "doDiagonalFromLeftTop";
     private final String diagonalRightStrategy = "doDiagonalFromRightUp";
-    //    private final String backupTopRightForLeft = "doBackupLeftForLeft";
-//    private final String backupTopLeftForLeft = "doBackupRightForLeft";
-//    private final String backupTopRightForRight = "doBackupLeftForRight";
-//    private final String backupTopLeftForRight = "doBackupRightForRight";
+
     private final String lastPieceStrategy = "doLastPieceStrategy";
 
     public Point doDiagonalLeftStrategy(PlayerSymbol[][] board) {
@@ -155,7 +80,7 @@ public class SampleGameClient implements GameClient {
             return new Point(2, 2);
         }
         System.out.println("None of the suggested points worked, panicking now.");
-        return checkBestPositionWentSecond(board);
+        return strategyHandlerWentSecond(board);
     }
 
     public Point doDiagonalRightStrategy(PlayerSymbol[][] board) {
@@ -166,62 +91,10 @@ public class SampleGameClient implements GameClient {
             return new Point(2, 0);
         }
         System.out.println("None of the suggested points worked, panicking now.");
-        return checkBestPositionWentSecond(board);
-    }
-
-    public Point doBackupTopRightForLeft(PlayerSymbol[][] board) {
-        System.out.println("I am doing BackupTopRightForLeft");
-        if (checkIfEmpty(board, 1, 0)) {
-            return new Point(0, 2);
-        } else if (checkIfEmpty(board, 2, 0)) {
-            return new Point(2, 0);
-        } else if (checkIfEmpty(board, 1, 2)) {
-            return new Point(1, 2);
-        }
-        System.out.println("None of the suggested points worked, panicking now.");
-        return checkBestPositionWentSecond(board);
-    }
-
-    public Point doBackupTopLeftForLeft(PlayerSymbol[][] board) {
-        System.out.println("I am doing BackupTopLeftForLeft");
-        if (checkIfEmpty(board, 0, 2)) {
-            return new Point(0, 2);
-        } else if (checkIfEmpty(board, 0, 1)) {
-            return new Point(1, 1);
-        } else if (checkIfEmpty(board, 2, 1)) {
-            return new Point(2, 1);
-        }
-        System.out.println("None of the suggested points worked, panicking now.");
-        return checkBestPositionWentSecond(board);
+        return strategyHandlerWentSecond(board);
     }
 
 
-    public Point doBackupTopRightForRight(PlayerSymbol[][] board) {
-        System.out.println("I am doing BackupTopRightForRight");
-        if (checkIfEmpty(board, 1, 0)) {
-            return new Point(1, 0);
-        } else if (checkIfEmpty(board, 0, 0)) {
-            return new Point(0, 0);
-        } else if (checkIfEmpty(board, 1, 2)) {
-            return new Point(1, 2);
-        }
-        System.out.println("None of the suggested points worked, panicking now.");
-        return checkBestPositionWentSecond(board);
-    }
-
-
-    public Point doBackupTopLeftForRight(PlayerSymbol[][] board) {
-        System.out.println("I am doing BackupTopLeftForRight");
-        if (checkIfEmpty(board, 2, 1)) {
-            return new Point(2, 1);
-        } else if (checkIfEmpty(board, 0, 1)) {
-            return new Point(0, 1);
-        } else if (checkIfEmpty(board, 2, 2)) {
-            return new Point(2, 2);
-        }
-        System.out.println("None of the suggested points worked, panicking now.");
-        return checkBestPositionWentSecond(board);
-    }
 
     public Point doLastPieceStrategy(PlayerSymbol[][] board) {
         System.out.println("I am doing LASTPIECE");
@@ -233,10 +106,10 @@ public class SampleGameClient implements GameClient {
             return new Point(2, 0);
         }
         System.out.println("None of the suggested points worked, panicking now.");
-        return checkBestPositionWentSecond(board);
+        return strategyHandlerWentSecond(board);
     }
 
-    public Point strategyHandler(PlayerSymbol[][] board) {
+    public Point strategyHandlerWentFirst(PlayerSymbol[][] board) {
         switch (checkWhatStrategyPossible(board)) {
             case diagonalLeftStrategy:
                 return doDiagonalLeftStrategy(board);
@@ -245,81 +118,21 @@ public class SampleGameClient implements GameClient {
             case lastPieceStrategy:
                 return doLastPieceStrategy(board);
         }
-        return checkBestPositionWentSecond(board);
+        return strategyHandlerWentSecond(board);
     }
-
 
     public String checkWhatStrategyPossible(PlayerSymbol[][] board) {
 
-        if (
-                checkIfEmptyOrMine(board, 0, 0) &&
-                        checkIfEmptyOrMine(board, 2, 2)
-        ) {
-            iDidThisStrategyLast = diagonalLeftStrategy;
+        if (checkIfEmptyOrMine(board, 0, 0) && checkIfEmptyOrMine(board, 2, 2)) {
             return diagonalLeftStrategy;
         }
 
-        if (
-                checkIfEmptyOrMine(board, 0, 2) &&
-                        checkIfEmptyOrMine(board, 2, 0)
-        ) {
-            iDidThisStrategyLast = diagonalRightStrategy;
+        if (checkIfEmptyOrMine(board, 0, 2) && checkIfEmptyOrMine(board, 2, 0)) {
             return diagonalRightStrategy;
         }
         if (checkIfEmptyOrMine(board, 0, 0) && checkIfEmptyOrMine(board, 1, 0) && checkIfEmptyOrMine(board, 2, 0)) {
             return lastPieceStrategy;
         }
-
-
-//        if (iDidThisStrategyLast.equals(diagonalLeftStrategy)) {
-//            if (checkIfEmptyOrMine(board, 1, 0) && checkIfEmptyOrMine(board, 2, 0) && checkIfEmptyOrMine(board, 1, 2)) {
-//                iDidThisStrategyLast = backupTopRightForLeft;
-//                return backupTopRightForLeft;
-//            }
-//            if (checkIfEmptyOrMine(board, 0, 2) && checkIfEmptyOrMine(board, 0, 1) && checkIfEmptyOrMine(board, 2, 1)) {
-//                iDidThisStrategyLast = backupTopLeftForLeft;
-//                return backupTopLeftForLeft;
-//
-//            }
-//        }
-//
-//        if (iDidThisStrategyLast.equals(diagonalRightStrategy)) {
-//            if (checkIfEmptyOrMine(board, 1, 0) && checkIfEmptyOrMine(board, 0, 0) && checkIfEmptyOrMine(board, 1, 2)) {
-//                iDidThisStrategyLast = backupTopRightForRight;
-//                return backupTopRightForRight;
-//            }
-//            if (checkIfEmptyOrMine(board, 2, 1) && checkIfEmptyOrMine(board, 0, 1) && checkIfEmptyOrMine(board, 2, 2)) {
-//                iDidThisStrategyLast = backupTopLeftForRight;
-//                return backupTopLeftForRight;
-//            }
-//        }
-//
-//
-//        if (
-//                checkIfEmptyOrMine(board, 0, 0) &&
-//                        checkIfEmptyOrMine(board, 2, 0) &&
-//                        checkIfEmptyOrMine(board, 1, 0)
-//        ) {
-//            return "doTopLeft";
-//        } else if (
-//                checkIfEmptyOrMine(board, 0, 0) &&
-//                        checkIfEmptyOrMine(board, 0, 2) &&
-//                        checkIfEmptyOrMine(board, 0, 1)
-//        ) {
-//            return "doTopRight";
-//        } else if (
-//                checkIfEmptyOrMine(board, 2, 2) &&
-//                        checkIfEmptyOrMine(board, 2, 1) &&
-//                        checkIfEmptyOrMine(board, 2, 0)
-//        ) {
-//            return "doBottomLeft";
-//        } else if (
-//                checkIfEmptyOrMine(board, 2, 2) &&
-//                        checkIfEmptyOrMine(board, 1, 2) &&
-//                        checkIfEmptyOrMine(board, 0, 2)
-//        ) {
-//            return "doBottomRight";
-//        }
         return "nothing";
     }
 
@@ -339,7 +152,7 @@ public class SampleGameClient implements GameClient {
         if (board[1][1].equals(PlayerSymbol.E)) {
             return new Point(1, 1);
         } else {
-            return strategyHandler(board);
+            return strategyHandlerWentSecond(board);
         }
     }
 
@@ -424,7 +237,7 @@ public class SampleGameClient implements GameClient {
         }
     }
 
-    public Point checkBestPositionWentSecond(PlayerSymbol[][] board) {
+    public Point strategyHandlerWentSecond(PlayerSymbol[][] board) {
         return checkBestPositionWentFirst(board);
     }
 
