@@ -1,3 +1,11 @@
+com\tieto\tictactoesolution\Enums\Strategy.class
+com\tieto\tictactoesolution\Strategies\WentFirstStrategyMovement.class
+com\tieto\tictactoesolution\Aspects\MyLogger.class
+com\tieto\tictactoesolution\Strategies\WentSecondStrategyMovement$1.class
+com\tieto\tictactoesolution\Strategies\WentSecondStrategyMovement.class
+com\tieto\tictactoesolution\NoStrategies\AnswerFriendlyRow.class
+com\tieto\tictactoesolution\NoStrategies\MovementWithoutStrategy.class
+com\tieto\tictactoesolution\Strategies\StrategyMovement.class
 com\tieto\tictactoesolution\TicTacToeClientApplication.class
 com\tieto\tictactoesolution\SampleGameClient.class
-com\tieto\tictactoesolution\SampleGameClient$AnswerFriendlyRow.class
+com\tieto\tictactoesolution\Strategies\WentFirstStrategyMovement$1.class

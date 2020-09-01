@@ -4,6 +4,8 @@ import com.tieto.tictactoeclient.api.GameClient;
 import com.tieto.tictactoeclient.internal.GameConfiguration;
 import com.tieto.tictactoeclient.internal.PlayerSymbol;
 import com.tieto.tictactoeclient.internal.Point;
+import com.tieto.tictactoesolution.Strategies.WentFirstStrategyMovement;
+import com.tieto.tictactoesolution.Strategies.WentSecondStrategyMovement;
 
 import java.util.UUID;
 
@@ -14,6 +16,8 @@ public class SampleGameClient implements GameClient {
     private PlayerSymbol playerSymbol;
     private int boardSize;
     private int winnerLength;
+    private WentFirstStrategyMovement wentFirstStrategyMovement;
+    private WentSecondStrategyMovement wentSecondStrategyMovement;
 
 
     @Override
@@ -23,18 +27,18 @@ public class SampleGameClient implements GameClient {
         this.playerSymbol = gameConfiguration.getPlayerSymbol();
         this.boardSize = gameConfiguration.getBoardSize();
         this.winnerLength = gameConfiguration.getWinnerLength();
+        this.wentFirstStrategyMovement  = new WentFirstStrategyMovement(playerSymbol, boardSize);
+        this.wentSecondStrategyMovement = new WentSecondStrategyMovement(playerSymbol, boardSize);
     }
 
     private boolean firstCheck = true;
 
     @Override
     public Point getNextMove(PlayerSymbol[][] board) {
-        WentFirstStrategyMovement wentFirstStrategyMovement = new WentFirstStrategyMovement(playerSymbol, boardSize);
-
         if (playerSymbol.equals(PlayerSymbol.X)) {
             return handleGoingFirst(board, wentFirstStrategyMovement);
         } else {
-            return handleGoingSecond(board, wentFirstStrategyMovement);
+            return handleGoingSecond(board, wentSecondStrategyMovement);
         }
     }
 
@@ -43,17 +47,17 @@ public class SampleGameClient implements GameClient {
             firstCheck = false;
             return new Point(1, 1);
         } else {
-            return wentFirstStrategyMovement.strategyHandlerWentFirst(board);
+            return wentFirstStrategyMovement.strategyHandler(board);
         }
     }
 
-    private Point handleGoingSecond(PlayerSymbol[][] board, WentFirstStrategyMovement wentFirstStrategyMovement) {
+    private Point handleGoingSecond(PlayerSymbol[][] board, WentSecondStrategyMovement wentSecondStrategyMovement) {
         if (firstCheck) {
             firstCheck = false;
-            if (wentFirstStrategyMovement.getMiddleOrStartStrategy(board)) {
+            if (wentSecondStrategyMovement.checkIfEmpty(board, 1, 1)) {
                 return new Point(1, 1);
             }
         }
-        return wentFirstStrategyMovement.strategyHandlerWentSecond(board);
+        return wentSecondStrategyMovement.strategyHandler(board);
     }
 }
