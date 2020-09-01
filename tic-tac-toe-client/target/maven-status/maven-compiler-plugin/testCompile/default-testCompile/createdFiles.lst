@@ -1,0 +1,6 @@
+com\tieto\tictactoesolution\util\ConsoleUtil.class
+com\tieto\tictactoesolution\client\SimpleSingleplayerTest.class
+com\tieto\tictactoesolution\TicTacToeClientApplicationTests.class
+com\tieto\tictactoesolution\util\EasyNpcClient.class
+com\tieto\tictactoesolution\util\GameBoard.class
+com\tieto\tictactoesolution\client\SampleGameClientTest.class
