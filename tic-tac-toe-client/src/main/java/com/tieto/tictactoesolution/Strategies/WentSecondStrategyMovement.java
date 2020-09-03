@@ -74,12 +74,12 @@ public class WentSecondStrategyMovement extends StrategyMovement {
 
     public Point doWentSecondLastHopeLol(PlayerSymbol[][] board) {
         System.out.println("I am doing WentSecondLastHopeLol");
-        if (checkIfEmpty(board, 0, 2)) {
-            return new Point(0, 2);
-        } else if (checkIfEmpty(board, 2, 2)) {
-            return new Point(2, 2);
-        } else if (checkIfEmpty(board, 1, 2)) {
-            return new Point(1, 2);
+        if (checkIfEmpty(board, 1, 0)) {
+            return new Point(1, 0);
+        } else if (checkIfEmpty(board, 2, 0)) {
+            return new Point(2, 0);
+        } else if (checkIfEmpty(board, 0, 0)) {
+            return new Point(0, 0);
         }
         System.out.println("None of the suggested points worked, panicking now.");
         return moveWithoutStrategy(board);
@@ -89,10 +89,10 @@ public class WentSecondStrategyMovement extends StrategyMovement {
         System.out.println("I am doing wentSecondAnotherLastHopeLol");
         if (checkIfEmpty(board, 2, 2)) {
             return new Point(2, 2);
-        } else if (checkIfEmpty(board, 2, 0)) {
-            return new Point(2, 0);
         } else if (checkIfEmpty(board, 2, 1)) {
             return new Point(2, 1);
+        } else if (checkIfEmpty(board, 2, 0)) {
+            return new Point(2, 0);
         }
         System.out.println("None of the suggested points worked, panicking now.");
         return moveWithoutStrategy(board);

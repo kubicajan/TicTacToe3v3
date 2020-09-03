@@ -1,12 +1,13 @@
 package com.tieto.tictactoesolution.Enums;
 
 public enum Strategy {
-    diagonalLeftStrategy,
-    diagonalRightStrategy,
+    diagonalTopStrategy,
+    diagonalBottom,
     lastPieceStrategy,
     wentSecondLastHopeLol,
     wentSecondAnotherLastHopeLol,
     stealTheWinVertical,
     stealTheWinHorizontal,
+    shitFuck,
     nothing
 }
